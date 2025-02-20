@@ -1,0 +1,21 @@
+Crear llave privada sin pass
+openssl genpkey -algorithm RSA -out private.pem
+
+Obtener la llave publica desde la privada sin pass
+openssl rsa -pubout -in private.pem -out public.pem
+
+crear llave por cada archivo openssl 
+#openssl rand -hex 32 > aes_key.key
+
+openssl rand -base64 32 > aes_key.key
+
+cifrar el archivo con AES usando la llave 
+openssl enc -aes-256-cbc -salt -in MOCK_DATA.csv -out MOCK_DATA.enc -pass file:aes_key.key
+
+cifrar la llave AES usando RSA con la llave publica
+openssl rsautl -encrypt -oaep -pubin -inkey public.pem -in aes_key.key -out aes_key.key.enc
+
+
+pip uninstall pycryptodome crypto cryptodome
+
+pip install pycryptodome
